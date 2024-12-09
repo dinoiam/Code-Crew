@@ -39,14 +39,11 @@ document.addEventListener('DOMContentLoaded', async ()=>{
     const populate = (users, action, root) =>{
         
         root.innerHTML = "";
-        const container = document.createElement('ul');
-        container.classList.add('list');
-        root.appendChild(container);
 
         users.forEach((user) => {
             
             const item = document.createElement('li');
-            container.appendChild(item);
+            root.appendChild(item);
             const card = document.createElement('div');
             card.classList.add('card');
             item.appendChild(card);

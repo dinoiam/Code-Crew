@@ -48,6 +48,7 @@ h3 {
     border: 5px solid black;
     border-radius: 10px;
     padding: 0;
+    min-height: 300px;
 }
 
 h3 {
