@@ -6,41 +6,32 @@ document.addEventListener('DOMContentLoaded', async ()=>{
 
     const usersResponse = await fetch('http://dms.cyberdelia.eu/api/v1/user');
     const usersRaw = await usersResponse.json();
-    // const users = usersRaw.filter((user) => {
-    //     return user.firstname && user.lastname;
-    // });
 
-    //destructuring 
-    // const users = usersRaw.filter(({ firstname, lastname}) => {
-    //     return firstname && lastname;
-    // });
-
-    //instant return arrow function
     let usersInPrison = usersRaw.filter(({ firstname, lastname}) => (firstname && lastname) );
     let freeUsers = [];
     const prison = document.getElementById('prison');
     const freedom = document.getElementById('freedom');
     const actions = { release: 'Scarcera', imprison: 'Incarcera'};
 
+    const render = (users, judged) => {
+        users.push(judged);
+        populate(usersInPrison, actions.release, prison);
+        populate(freeUsers, actions.imprison, freedom);
+    }
 
-    const judgeAction = (action, user) => {
+    const judgeAction = (action, judged) => {
         if(action === actions.release){
             usersInPrison = usersInPrison.filter((u) => {
-                return user.id != u.id;
+                return judged.id != u.id;
             });
-            freeUsers.push(user);
-            populate(usersInPrison, action, prison);
-            populate(freeUsers, actions.imprison, freedom);
-            return; 
+            render(freeUsers, judged);
+            
         }
         if(action === actions.imprison){
             freeUsers = freeUsers.filter((u) => {
-                return user.id != u.id;
+                return judged.id != u.id;
             });
-            usersInPrison.push(user);
-            populate(freeUsers, action, freedom);
-            populate(usersInPrison, actions.release, prison);
-            return;  
+            render(usersInPrison, judged);
         }
         
     }
@@ -84,5 +75,3 @@ document.addEventListener('DOMContentLoaded', async ()=>{
     
 
 })
-
-// ul -> li -> div -> h3 ->
