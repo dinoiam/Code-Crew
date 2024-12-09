@@ -20,28 +20,26 @@ document.addEventListener('DOMContentLoaded', async ()=>{
     let freeUsers = [];
     const prison = document.getElementById('prison');
     const freedom = document.getElementById('freedom');
-    
+    const actions = { release: 'Scarcera', imprison: 'Incarcera'};
 
 
     const judgeAction = (action, user) => {
-        if(action == 'Scarcera'){
+        if(action === actions.release){
             usersInPrison = usersInPrison.filter((u) => {
                 return user.id != u.id;
             });
             freeUsers.push(user);
             populate(usersInPrison, action, prison);
-            action = 'Incarcera';
-            populate(freeUsers, action, freedom);
+            populate(freeUsers, actions.imprison, freedom);
             return; 
         }
-        if(action == 'Incarcera'){
+        if(action === actions.imprison){
             freeUsers = freeUsers.filter((u) => {
                 return user.id != u.id;
             });
             usersInPrison.push(user);
             populate(freeUsers, action, freedom);
-            action = 'Scarcera';
-            populate(usersInPrison, action, prison);
+            populate(usersInPrison, actions.release, prison);
             return;  
         }
         
@@ -82,7 +80,7 @@ document.addEventListener('DOMContentLoaded', async ()=>{
     
     }
 
-    populate(usersInPrison, 'Scarcera', prison);
+    populate(usersInPrison, actions.release, prison);
     
 
 })
